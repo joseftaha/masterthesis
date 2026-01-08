@@ -1,0 +1,23 @@
+[project]
+name = "thesis-experiment-slurm"
+version = "0.1.0"
+description = "Reproducible Slurm-based real-cluster runner for the diploma thesis policy experiments."
+requires-python = ">=3.11"
+dependencies = [
+    "vllm==0.15.0",
+    "transformers>=4.44",
+    "datasets>=2.20",
+    "huggingface_hub>=0.24",
+    "aiohttp>=3.9",
+    "requests>=2.31",
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "matplotlib>=3.8",
+]
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
