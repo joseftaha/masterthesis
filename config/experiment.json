@@ -1,0 +1,79 @@
+{
+  "_comment": "Pinned reference configuration for the diploma thesis experiment. Edit ONLY the partition/account fields when porting to a new Slurm cluster.",
+  "hardware": {
+    "node_class": "1x node, 4x NVIDIA A40 (48GB) each, local NVMe scratch",
+    "slurm_partition": "gpu",
+    "slurm_account": null,
+    "slurm_qos": null,
+    "node_constraint": "a40",
+    "time_limit_warm": "06:00:00",
+    "time_limit_cold": "06:00:00",
+    "time_limit_batch": "04:00:00",
+    "time_limit_measure": "01:00:00"
+  },
+  "software": {
+    "vllm_version": "0.16.0",
+    "python_version": "3.11",
+    "cuda_module": "cuda/12.4",
+    "container_image": null,
+    "torch_dtype": "bfloat16"
+  },
+  "models": {
+    "primary": {
+      "name": "Meta-Llama-3-8B-Instruct",
+      "hf_repo": "meta-llama/Meta-Llama-3-8B-Instruct",
+      "revision": "main",
+      "quantization": "bf16",
+      "tensor_parallel_size": 1,
+      "gpu_memory_utilization": 0.85,
+      "max_model_len": 4096,
+      "vram_gb": 18.0
+    },
+    "secondary": {
+      "name": "Meta-Llama-3-70B-Instruct",
+      "hf_repo": "meta-llama/Meta-Llama-3-70B-Instruct",
+      "revision": "main",
+      "quantization": "awq_marlin",
+      "quant_repo_override": "casperhansen/llama-3-70b-instruct-awq",
+      "tensor_parallel_size": 4,
+      "gpu_memory_utilization": 0.90,
+      "max_model_len": 4096,
+      "vram_gb": 50.0
+    }
+  },
+  "primitives_measurement": {
+    "reference_input_tokens": 512,
+    "reference_output_tokens": 128,
+    "concurrency": 1,
+    "warmup_requests": 1,
+    "measured_requests": 10
+  },
+  "decoding": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "seed": 12345,
+    "interactive_max_output_tokens": 512,
+    "batch_max_output_tokens": 128
+  },
+  "datasets": {
+    "interactive_source": {
+      "name": "ShareGPT_V3_unfiltered_cleaned_split",
+      "hf_repo": "anon8231489123/ShareGPT_Vicuna_unfiltered",
+      "file": "ShareGPT_V3_unfiltered_cleaned_split.json",
+      "license": "cc-by-nc-4.0 (research only)"
+    },
+    "batch_source": {
+      "name": "cnn_dailymail",
+      "hf_repo": "abisee/cnn_dailymail",
+      "config": "3.0.0",
+      "split": "test"
+    }
+  },
+  "trace_seed": 20240501,
+  "policies": ["all_cold", "static_hot_8B", "static_hot_70B", "reactive_switch_on_miss", "hybrid_break_even"],
+  "experiment_b": {
+    "model": "Meta-Llama-3-8B-Instruct",
+    "concurrencies": [1, 4, 8],
+    "include_cold_baseline": true
+  }
+}
