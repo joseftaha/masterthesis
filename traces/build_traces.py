@@ -290,7 +290,7 @@ def main() -> int:
     stats = {}
     for name, build in builds.items():
         # one independent stream per trace, derived from the master seed
-        sub_seed = args.seed + sum(ord(c) for c in name) - 1
+        sub_seed = args.seed + sum(ord(c) for c in name)
         rows = build(random.Random(sub_seed))
         _emit(args.out / f"{name}.csv", rows)
         n = len(rows)
