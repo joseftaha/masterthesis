@@ -60,8 +60,17 @@ def summarize(details_csv: Path, switches_csv: Path, *, trace: str,
     cold = sum(1 for r in rows if r.get("service_mode") == "cold")
     warm = sum(1 for r in rows if r.get("service_mode") in ("hot_warm", "switched_warm"))
 
-    sw_rows = list(csv.DictReader(switches_csv.open()))
-    n_switches = len(sw_rows)
+    n_switches = 0
+    if switches_csv.exists():
+        sw_rows = list(csv.DictReader(switches_csv.open()))
+        # Count only real switches (between two different models). cold loads
+        # in the same allocation also produce a switch row but are not
+        # "switches" in the policy sense.
+        for s in sw_rows:
+            fr = (s.get("from_model") or "").strip()
+            to = (s.get("to_model") or "").strip()
+            if fr and to and fr != to:
+                n_switches += 1
 
     makespan = (max(finishes) - min(arrivals)) if finishes and arrivals else 0.0
 
