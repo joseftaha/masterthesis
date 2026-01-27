@@ -39,7 +39,7 @@ CACHE.mkdir(exist_ok=True)
 # trace contents, even if the sampling seed is unchanged.
 DATASET_REVISIONS = {
     "anon8231489123/ShareGPT_Vicuna_unfiltered": "main",
-    "abisee/cnn_dailymail": "main",
+    "abisee/cnn_dailymail": "3.0.0",
 }
 
 
