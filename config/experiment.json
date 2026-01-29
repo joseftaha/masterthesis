@@ -45,7 +45,7 @@
     "reference_input_tokens": 512,
     "reference_output_tokens": 128,
     "concurrency": 1,
-    "warmup_requests": 1,
+    "warmup_requests": 3,
     "measured_requests": 10
   },
   "decoding": {
