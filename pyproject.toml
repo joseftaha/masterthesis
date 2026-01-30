@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Reproducible Slurm-based real-cluster runner for the diploma thesis policy experiments."
 requires-python = ">=3.11"
 dependencies = [
-    "vllm==0.15.0",
+    "vllm==0.16.0",
     "transformers>=4.44",
     "datasets>=2.20",
     "huggingface_hub>=0.24",
